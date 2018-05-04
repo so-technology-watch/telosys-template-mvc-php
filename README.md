@@ -25,6 +25,8 @@ NOTE : Twig 2.x requires PHP 7. If you do not use PHP 7, then set the twig versi
 1. Host the generated application on a webserver.
 2. Open the hosted application with your web browser.
 
+NOTE : This application will not persist any data unless you use a persistence solution (i.e : the Telosys 3 Persistence PHP Template).
+
 ## License
 
 This project uses the [LGPL v3 License](https://www.gnu.org/licenses/lgpl-3.0.en.html).
