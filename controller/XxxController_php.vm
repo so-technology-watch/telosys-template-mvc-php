@@ -1,0 +1,90 @@
+<?php
+#set ( $_ = "$" )
+#set ( $uncapEntityName = ${fn.uncapitalize($entity.name)} )
+#set ( $capEntityName = ${fn.capitalize($entity.name)} )
+##
+#set( $entityFormatAttrs = "" )
+#foreach( $attribute in $entity.attributes )
+#if( $foreach.count < 2 )
+#set( $entityFormatAttrs = "${_}data['"+${attribute.name}+"']" )
+#else
+#set( $entityFormatAttrs = $entityFormatAttrs + ", ${_}data['"+${attribute.name}+"']" )
+#end ## end if
+#end ## end foreach
+##
+#set( $entityKeyAttrs = "" )
+#foreach( $attribute in $entity.keyAttributes)
+#if( $foreach.count < 2 )
+#set( $entityKeyAttrs = "${_}"+${attribute.name} )
+#else
+#set( $entityKeyAttrs = $entityKeyAttrs + ", "+"${_}"+${attribute.name} )
+#end ## end if
+#end ## end foreach
+##
+class ${capEntityName}Controller
+{
+    private ${_}twig;
+    private ${_}${capEntityName}Repository;
+
+    public function __construct()
+    {
+        // Specify our Twig templates location
+        ${_}loader = new Twig_Loader_Filesystem('./view');
+
+        // Instantiate our Twig
+        ${_}twig = new Twig_Environment(${_}loader);
+        ${_}this->twig = ${_}twig;
+
+        // Persistance implementation
+        ${_}this->${capEntityName}Repository = ${capEntityName}Repository::getInstance();
+    }
+
+    // Get All ${uncapEntityName}s
+    public function getAll(${_}msg = null) {
+        // Obtain all ${uncapEntityName}s from the repository
+        ${_}${uncapEntityName}s = ${_}this->${capEntityName}Repository->getAll();
+        // Then send the result to the view
+        return ${_}this->twig->render('${capEntityName}List.twig', ['${uncapEntityName}s' => ${_}${uncapEntityName}s, 'msg' => ${_}msg]);
+    }
+
+    // Create form view
+    public function createForm() {
+        return ${_}this->twig->render('${uncapEntityName}Form.twig');
+    }
+
+    // Update form view
+    public function updateForm($entityKeyAttrs) {
+        // Obtain a specific ${capEntityName} from the repository
+        ${_}${uncapEntityName} = ${_}this->${capEntityName}Repository->getOne($entityKeyAttrs);
+        // Then send the result to the view
+        return ${_}this->twig->render('${uncapEntityName}View.twig', ['${uncapEntityName}' => ${_}${uncapEntityName}] );
+    }
+
+    // Create a ${uncapEntityName}
+    public function create(${_}data) {
+        ${_}${uncapEntityName} = new ${capEntityName}($entityFormatAttrs);
+        // Send the ${uncapEntityName} data to the repository
+        ${_}msg = ${_}this->${capEntityName}Repository->create(${_}${uncapEntityName});
+        // if the ${uncapEntityName} is successfully created => redirect to list & display "${uncapEntityName} created"
+        // else => redirect to list & display "error : could not create ${uncapEntityName}"
+        return ${_}this->getAll(${_}msg);
+    }
+
+    // Update a ${uncapEntityName}
+    public function update(${_}data) {
+        ${_}${uncapEntityName} = new ${capEntityName}($entityFormatAttrs);
+        // Send the ${uncapEntityName} data to the repository
+        ${_}msg =  ${_}this->${capEntityName}Repository->update(${_}${uncapEntityName});
+        // if the ${uncapEntityName} is successfully updated => redirect to list & display "${uncapEntityName} update"
+        // else => redirect to list & display "error : could not update ${uncapEntityName}"
+        return ${_}this->getAll(${_}msg);
+    }
+
+    // Delete a ${uncapEntityName}
+    public function delete($entityKeyAttrs) {
+        ${_}msg =  ${_}this->${capEntityName}Repository->delete($entityKeyAttrs);
+        // if the ${uncapEntityName} is successfully deleted => redirect to list & display "${uncapEntityName} deleted"
+        // else => redirect to list & display "error : could not delete ${uncapEntityName}"
+        return ${_}this->getAll(${_}msg);
+    }
+}

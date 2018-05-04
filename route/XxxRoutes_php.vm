@@ -1,0 +1,41 @@
+<?php
+#set ( $_ = "$" )
+#set ( $uncapEntityName = ${fn.uncapitalize($entity.name)} )
+##
+#set( $entityKeyAttrs = "" )
+#set( $entityKeyAttrsUrl = "" )
+#foreach( $attribute in $entity.keyAttributes)
+#if( $foreach.count < 2 )
+#set( $entityKeyAttrs = "${_}"+${attribute.name}+${foreach.count} )
+#set( $entityKeyAttrsUrl = ":"+${attribute.name}+${foreach.count} )
+#else
+#set( $entityKeyAttrs = $entityKeyAttrs + ", "+"${_}"+${attribute.name}+${foreach.count} )
+#set( $entityKeyAttrsUrl = $entityKeyAttrsUrl + "/:"+${attribute.name}+${foreach.count} )
+#end ## end if
+#end ## end foreach
+##
+${_}router = Router::getInstance();
+
+${_}router->add_route('GET', '/${uncapEntityName}', function(){
+    return (new ${uncapEntityName}Controller())->getAll();
+});
+
+${_}router->add_route('GET', '/${uncapEntityName}/form', function(){
+    return (new ${uncapEntityName}Controller())->createForm();
+});
+
+${_}router->add_route('GET', '/${uncapEntityName}/${entityKeyAttrsUrl}', function($entityKeyAttrs){
+    return (new ${uncapEntityName}Controller())->updateForm($entityKeyAttrs);
+});
+
+${_}router->add_route('POST', '/${uncapEntityName}/create', function(){
+    return (new ${uncapEntityName}Controller())->create(${_}_POST);
+});
+
+${_}router->add_route('POST', '/${uncapEntityName}/update', function(){
+    return (new ${uncapEntityName}Controller())->update(${_}_POST);
+});
+
+${_}router->add_route('GET', '/${uncapEntityName}/delete', function($entityKeyAttrs){
+    return (new ${uncapEntityName}Controller())->delete($entityKeyAttrs);
+});

@@ -1,0 +1,16 @@
+<?php
+
+require_once 'vendor/autoload.php';
+
+#[[$]]#router = Router::getInstance();
+
+#[[$]]#router->add_route('GET', '/', function(){
+    // Specify our Twig templates location
+    #[[$]]#loader = new Twig_Loader_Filesystem('./view');
+
+// Instantiate our Twig
+    #[[$]]#twig = new Twig_Environment(#[[$]]#loader);
+    return #[[$]]#twig->render('./layout/index.twig');
+});
+
+#[[$]]#router->listen();

@@ -1,0 +1,35 @@
+<?php
+
+class ${fn.capitalize($entity.name)}
+{
+#set( $attrs = "" )
+#foreach( $attribute in $entity.attributes )
+    private #[[$]]#${attribute.name};
+#if( $foreach.count < 2 )
+#set( $attrs = ${attribute.name} )
+#else
+#set( $attrs = $attrs + ", " + ${attribute.name} )
+#end ## end if
+#end ## end foreach
+
+    public function __construct( $attrs )
+    {
+#foreach( $attribute in $entity.attributes )
+    	#[[$]]#this->${attribute.name} = #[[$]]#${attribute.name};
+#end ## end foreach
+    }
+
+#foreach( $attribute in $entity.attributes )
+
+    public function get${fn.capitalize($attribute.name)}()
+    {
+        return #[[$]]#this->${attribute.name};
+    }
+
+    public function set${fn.capitalize($attribute.name)}(#[[$]]#${fn.uncapitalize($attribute.name)})
+    {
+        #[[$]]#this->${attribute.name} = #[[$]]#${attribute.name};
+    }
+
+#end ## end foreach
+}

@@ -1,0 +1,66 @@
+#[[<?php
+
+require_once("route.php");
+
+class Router {
+
+    private static $_instance = null;
+
+    var $routes = ['GET' => [], 'POST' => [], 'PUT' => [], 'DELETE' => []];
+
+    public function __construct() {}
+
+    // Add a route
+    public function add_route($method, $path, $fun)
+    {
+        switch (trim($method)) {
+            case 'GET':
+                array_push($this->routes['GET'], new GET($path, $fun));
+                break;
+            case 'POST':
+                array_push($this->routes['POST'], new POST($path, $fun));
+                break;
+            case 'PUT':
+                array_push($this->routes['PUT'], new PUT($path, $fun));
+                break;
+            case 'DELETE':
+                array_push($this->routes['DELETE'], new DELETE($path, $fun));
+                break;
+        }
+    }
+
+    // Search for a matching route and execute the related function
+    private function match_and_exec($method, $path)
+    {
+        $possible_routes = $this->routes[$method];
+        foreach($possible_routes as $route)
+        {
+            $result = $route->match($path);
+            if (is_array($result) == false)
+            {
+                continue;
+            }
+            return $route->call($result);
+        }
+        return false;
+    }
+
+    // method listening for the http request
+    public function listen()
+    {
+        // import the defined routes in the route/ folder
+        foreach (glob("./route/*Routes.php") as $filename) {
+            include $filename;
+        }
+        $method = strtoupper($_SERVER['REQUEST_METHOD']);
+        $path = trim($_SERVER['REQUEST_URI']);
+        print $this->match_and_exec($method, $path);
+    }
+
+    public static function getInstance() {
+        if(is_null(self::$_instance)) {
+            self::$_instance = new Router();
+        }
+        return self::$_instance;
+    }
+}]]#
