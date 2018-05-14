@@ -1,7 +1,7 @@
 <?php
 
 #set ( $_ = "$" )
-class ${fn.capitalize($entity.name)}
+class ${fn.capitalize($entity.name)} implements JsonSerializable
 {
 #set( $attrs = "" )
 #foreach( $attribute in $entity.attributes )
@@ -12,6 +12,17 @@ class ${fn.capitalize($entity.name)}
 #set( $attrs = $attrs + ", ${_}" + ${attribute.name} )
 #end ## end if
 #end ## end foreach
+##
+#set ( $serializedAttribs = "" )
+#set ( $cpt = 0 )
+#foreach( $attribute in $entity.attributes )
+#set ( $cpt = $cpt +1 )
+#if ( $cpt > 1 )
+#set ( $serializedAttribs = $serializedAttribs + ", " )
+#end ## end if
+#set ( $serializedAttribs = $serializedAttribs + "'${attribute.name}' => ${_}this->get${fn.capitalize($attribute.name)}()" )
+#end ## end foreach
+##
 
     public function __construct( $attrs )
     {
@@ -33,4 +44,12 @@ class ${fn.capitalize($entity.name)}
     }
 
 #end ## end foreach
+
+	public function jsonSerialize()
+    {
+        return
+            [
+				${serializedAttribs}
+            ];
+    }
 }
