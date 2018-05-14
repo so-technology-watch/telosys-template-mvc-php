@@ -1,21 +1,22 @@
 <?php
 
+#set ( $_ = "$" )
 class ${fn.capitalize($entity.name)}
 {
 #set( $attrs = "" )
 #foreach( $attribute in $entity.attributes )
-    private #[[$]]#${attribute.name};
+    private ${_}${attribute.name};
 #if( $foreach.count < 2 )
-#set( $attrs = ${attribute.name} )
+#set( $attrs = "${_}"+${attribute.name} )
 #else
-#set( $attrs = $attrs + ", " + ${attribute.name} )
+#set( $attrs = $attrs + ", ${_}" + ${attribute.name} )
 #end ## end if
 #end ## end foreach
 
     public function __construct( $attrs )
     {
 #foreach( $attribute in $entity.attributes )
-    	#[[$]]#this->${attribute.name} = #[[$]]#${attribute.name};
+    	${_}this->${attribute.name} = ${_}${attribute.name};
 #end ## end foreach
     }
 
@@ -23,12 +24,12 @@ class ${fn.capitalize($entity.name)}
 
     public function get${fn.capitalize($attribute.name)}()
     {
-        return #[[$]]#this->${attribute.name};
+        return ${_}this->${attribute.name};
     }
 
-    public function set${fn.capitalize($attribute.name)}(#[[$]]#${fn.uncapitalize($attribute.name)})
+    public function set${fn.capitalize($attribute.name)}(${_}${fn.uncapitalize($attribute.name)})
     {
-        #[[$]]#this->${attribute.name} = #[[$]]#${attribute.name};
+        ${_}this->${attribute.name} = ${_}${attribute.name};
     }
 
 #end ## end foreach

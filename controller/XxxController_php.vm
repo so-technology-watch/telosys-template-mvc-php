@@ -35,7 +35,7 @@ class ${capEntityName}Controller
         ${_}twig = new Twig_Environment(${_}loader);
         ${_}this->twig = ${_}twig;
 
-        // Persistance implementation
+        // Persistence implementation
         ${_}this->${capEntityName}Repository = ${capEntityName}Repository::getInstance();
     }
 
