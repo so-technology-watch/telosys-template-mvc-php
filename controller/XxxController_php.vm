@@ -21,17 +21,23 @@
 #end ## end if
 #end ## end foreach
 ##
+// Entity Controller
 class ${capEntityName}Controller
 {
+    private static ${_}_instance = null;
+
+    public static function getInstance() {
+        if (is_null(self::${_}_instance)) {
+            self::${_}_instance = new ${capEntityName}Controller();
+        }
+        return self::${_}_instance;
+    }
+
     private ${_}twig;
     private ${_}${capEntityName}Repository;
 
-    public function __construct()
-    {
-        // Specify our Twig templates location
+    public function __construct() {
         ${_}loader = new Twig_Loader_Filesystem('./view');
-
-        // Instantiate our Twig
         ${_}twig = new Twig_Environment(${_}loader);
         ${_}this->twig = ${_}twig;
 
@@ -39,52 +45,71 @@ class ${capEntityName}Controller
         ${_}this->${capEntityName}Repository = ${capEntityName}Repository::getInstance();
     }
 
-    // Get All ${uncapEntityName}s
+    /**
+     * Data population method
+     * @param ${_}data
+     * @return ${capEntityName}
+     */
+    public function populate(${_}data) {
+        return new new ${capEntityName}($entityFormatAttrs);
+    }
+
+    /**
+     * Get all entities method
+     * @param null ${_}msg
+     * @return string
+     */
     public function getAll(${_}msg = null) {
-        // Obtain all ${uncapEntityName}s from the repository
         ${_}${uncapEntityName}s = ${_}this->${capEntityName}Repository->getAll();
-        // Then send the result to the view
         return ${_}this->twig->render('${capEntityName}List.twig', ['${uncapEntityName}s' => ${_}${uncapEntityName}s, 'msg' => ${_}msg]);
     }
 
-    // Create form view
+    /**
+     * Create one entity form display method
+     * @return string
+     */
     public function createForm() {
         return ${_}this->twig->render('${uncapEntityName}Form.twig');
     }
 
-    // Update form view
+    /**
+     * Update one entity form display method
+     * @param ${_}id
+     * @return string
+     */
     public function updateForm($entityKeyAttrs) {
-        // Obtain a specific ${capEntityName} from the repository
         ${_}${uncapEntityName} = ${_}this->${capEntityName}Repository->getOne($entityKeyAttrs);
-        // Then send the result to the view
         return ${_}this->twig->render('${uncapEntityName}View.twig', ['${uncapEntityName}' => ${_}${uncapEntityName}] );
     }
 
-    // Create a ${uncapEntityName}
+    /**
+     * Create one entity method
+     * @param ${_}data
+     * @return string
+     */
     public function create(${_}data) {
-        ${_}${uncapEntityName} = new ${capEntityName}($entityFormatAttrs);
-        // Send the ${uncapEntityName} data to the repository
+        ${_}${uncapEntityName} = ${_}this->populate(${_}data);
         ${_}msg = ${_}this->${capEntityName}Repository->create(${_}${uncapEntityName});
-        // if the ${uncapEntityName} is successfully created => redirect to list & display "${uncapEntityName} created"
-        // else => redirect to list & display "error : could not create ${uncapEntityName}"
         return ${_}this->getAll(${_}msg);
     }
 
-    // Update a ${uncapEntityName}
+    /**
+     * Update one entity method
+     * @param ${_}data
+     * @return string
+     */
     public function update(${_}data) {
-        ${_}${uncapEntityName} = new ${capEntityName}($entityFormatAttrs);
-        // Send the ${uncapEntityName} data to the repository
+        ${_}${uncapEntityName} = ${_}this->populate(${_}data);
         ${_}msg =  ${_}this->${capEntityName}Repository->update(${_}${uncapEntityName});
-        // if the ${uncapEntityName} is successfully updated => redirect to list & display "${uncapEntityName} update"
-        // else => redirect to list & display "error : could not update ${uncapEntityName}"
         return ${_}this->getAll(${_}msg);
     }
 
-    // Delete a ${uncapEntityName}
+    /**
+     * Delete one entity method
+     * @return string
+     */
     public function delete($entityKeyAttrs) {
         ${_}msg =  ${_}this->${capEntityName}Repository->delete($entityKeyAttrs);
-        // if the ${uncapEntityName} is successfully deleted => redirect to list & display "${uncapEntityName} deleted"
-        // else => redirect to list & display "error : could not delete ${uncapEntityName}"
         return ${_}this->getAll(${_}msg);
     }
 }

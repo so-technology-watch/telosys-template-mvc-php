@@ -1,6 +1,7 @@
 <?php
 #set ( $_ = "$" )
 #set ( $uncapEntityName = ${fn.uncapitalize($entity.name)} )
+#set ( $capEntityName = ${fn.capitalize($entity.name)} )
 ##
 #set( $entityKeyAttrs = "" )
 #set( $entityKeyAttrsUrl = "" )
@@ -17,25 +18,25 @@
 ${_}router = Router::getInstance();
 
 ${_}router->add_route('GET', '/${uncapEntityName}', function(){
-    return (new ${uncapEntityName}Controller())->getAll();
+    return (new ${capEntityName}Controller::getInstance()->getAll();
 });
 
 ${_}router->add_route('GET', '/${uncapEntityName}/form', function(){
-    return (new ${uncapEntityName}Controller())->createForm();
+    return (new ${capEntityName}Controller::getInstance()->createForm();
 });
 
 ${_}router->add_route('GET', '/${uncapEntityName}/${entityKeyAttrsUrl}', function($entityKeyAttrs){
-    return (new ${uncapEntityName}Controller())->updateForm($entityKeyAttrs);
+    return (new ${capEntityName}Controller::getInstance()->updateForm($entityKeyAttrs);
 });
 
 ${_}router->add_route('POST', '/${uncapEntityName}/create', function(){
-    return (new ${uncapEntityName}Controller())->create(${_}_POST);
+    return (new ${capEntityName}Controller::getInstance()->create(${_}_POST);
 });
 
 ${_}router->add_route('POST', '/${uncapEntityName}/update', function(){
-    return (new ${uncapEntityName}Controller())->update(${_}_POST);
+    return (new ${capEntityName}Controller::getInstance()->update(${_}_POST);
 });
 
 ${_}router->add_route('GET', '/${uncapEntityName}/delete', function($entityKeyAttrs){
-    return (new ${uncapEntityName}Controller())->delete($entityKeyAttrs);
+    return (new ${capEntityName}Controller::getInstance()->delete($entityKeyAttrs);
 });

@@ -1,5 +1,5 @@
 <?php
-
+// PHP ${fn.capitalize($entity.name)} Entity Class
 #set ( $_ = "$" )
 class ${fn.capitalize($entity.name)} implements JsonSerializable
 {
