@@ -7,11 +7,11 @@
 #set( $entityKeyAttrsUrl = "" )
 #foreach( $attribute in $entity.keyAttributes)
 #if( $foreach.count < 2 )
-#set( $entityKeyAttrs = "${_}"+${attribute.name}+${foreach.count} )
-#set( $entityKeyAttrsUrl = ":"+${attribute.name}+${foreach.count} )
+#set( $entityKeyAttrs = "${_}"+${attribute.name} )
+#set( $entityKeyAttrsUrl = ":"+${attribute.name} )
 #else
-#set( $entityKeyAttrs = $entityKeyAttrs + ", "+"${_}"+${attribute.name}+${foreach.count} )
-#set( $entityKeyAttrsUrl = $entityKeyAttrsUrl + "/:"+${attribute.name}+${foreach.count} )
+#set( $entityKeyAttrs = $entityKeyAttrs + ", "+"${_}"+${attribute.name} )
+#set( $entityKeyAttrsUrl = $entityKeyAttrsUrl + "/:"+${attribute.name} )
 #end ## end if
 #end ## end foreach
 ##
