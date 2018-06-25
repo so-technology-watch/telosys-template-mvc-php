@@ -34,7 +34,7 @@ class ${capEntityName}Controller
     }
 
     private ${_}twig;
-    private ${_}${capEntityName}Repository;
+    private ${_}${uncapEntityName}Repository;
 
     public function __construct() {
         ${_}loader = new Twig_Loader_Filesystem('./view');
@@ -42,7 +42,7 @@ class ${capEntityName}Controller
         ${_}this->twig = ${_}twig;
 
         // Persistence implementation
-        ${_}this->${capEntityName}Repository = ${capEntityName}Repository::getInstance();
+        ${_}this->${uncapEntityName}Repository = ${capEntityName}Repository::getInstance();
     }
 
     /**
@@ -60,7 +60,7 @@ class ${capEntityName}Controller
      * @return string
      */
     public function getAll(${_}msg = null) {
-        ${_}${uncapEntityName}s = ${_}this->${capEntityName}Repository->getAll();
+        ${_}${uncapEntityName}s = ${_}this->${uncapEntityName}Repository->getAll();
         return ${_}this->twig->render('${capEntityName}List.twig', ['${uncapEntityName}s' => ${_}${uncapEntityName}s, 'msg' => ${_}msg]);
     }
 
@@ -78,7 +78,7 @@ class ${capEntityName}Controller
      * @return string
      */
     public function updateForm($entityKeyAttrs) {
-        ${_}${uncapEntityName} = ${_}this->${capEntityName}Repository->getOne($entityKeyAttrs);
+        ${_}${uncapEntityName} = ${_}this->${uncapEntityName}Repository->getOne($entityKeyAttrs);
         return ${_}this->twig->render('${uncapEntityName}View.twig', ['${uncapEntityName}' => ${_}${uncapEntityName}] );
     }
 
@@ -89,7 +89,7 @@ class ${capEntityName}Controller
      */
     public function create(${_}data) {
         ${_}${uncapEntityName} = ${_}this->populate(${_}data);
-        ${_}msg = ${_}this->${capEntityName}Repository->create(${_}${uncapEntityName});
+        ${_}msg = ${_}this->${uncapEntityName}Repository->create(${_}${uncapEntityName});
         return ${_}this->getAll(${_}msg);
     }
 
@@ -100,7 +100,7 @@ class ${capEntityName}Controller
      */
     public function update(${_}data) {
         ${_}${uncapEntityName} = ${_}this->populate(${_}data);
-        ${_}msg =  ${_}this->${capEntityName}Repository->update(${_}${uncapEntityName});
+        ${_}msg =  ${_}this->${uncapEntityName}Repository->update(${_}${uncapEntityName});
         return ${_}this->getAll(${_}msg);
     }
 
@@ -109,7 +109,7 @@ class ${capEntityName}Controller
      * @return string
      */
     public function delete($entityKeyAttrs) {
-        ${_}msg =  ${_}this->${capEntityName}Repository->delete($entityKeyAttrs);
+        ${_}msg =  ${_}this->${uncapEntityName}Repository->delete($entityKeyAttrs);
         return ${_}this->getAll(${_}msg);
     }
 }
