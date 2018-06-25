@@ -7,11 +7,11 @@
 #set( $entityKeyAttrsUrl = "" )
 #foreach( $attribute in $entity.keyAttributes)
 #if( $foreach.count < 2 )
-#set( $entityKeyAttrs = "${_}"+${attribute.name} )
-#set( $entityKeyAttrsUrl = ":"+${attribute.name} )
+#set( $entityKeyAttrs = "${_}"+${fn.toLowerCase($attribute.name)} )
+#set( $entityKeyAttrsUrl = ":"+${fn.toLowerCase($attribute.name)} )
 #else
-#set( $entityKeyAttrs = $entityKeyAttrs + ", "+"${_}"+${attribute.name} )
-#set( $entityKeyAttrsUrl = $entityKeyAttrsUrl + "/:"+${attribute.name} )
+#set( $entityKeyAttrs = $entityKeyAttrs + ", "+"${_}"+${fn.toLowerCase($attribute.name)} )
+#set( $entityKeyAttrsUrl = $entityKeyAttrsUrl + "/:"+${fn.toLowerCase($attribute.name)} )
 #end ## end if
 #end ## end foreach
 ##
@@ -25,8 +25,8 @@ ${_}router->add_route('GET', '/${uncapEntityName}/form', function(){
     return (${capEntityName}Controller::getInstance()->createForm());
 });
 
-${_}router->add_route('GET', '/${uncapEntityName}/${entityKeyAttrsUrl}', function($entityKeyAttrs){
-    return (${capEntityName}Controller::getInstance()->updateForm($entityKeyAttrs));
+${_}router->add_route('GET', '/${uncapEntityName}/${entityKeyAttrsUrl}', function(${entityKeyAttrs}){
+    return (${capEntityName}Controller::getInstance()->updateForm(${entityKeyAttrs}));
 });
 
 ${_}router->add_route('POST', '/${uncapEntityName}/create', function(){
@@ -37,6 +37,6 @@ ${_}router->add_route('POST', '/${uncapEntityName}/update', function(){
     return (${capEntityName}Controller::getInstance()->update(${_}_POST));
 });
 
-${_}router->add_route('GET', '/${uncapEntityName}/delete/${entityKeyAttrsUrl}', function($entityKeyAttrs){
-    return (${capEntityName}Controller::getInstance()->delete($entityKeyAttrs));
+${_}router->add_route('GET', '/${uncapEntityName}/delete/${entityKeyAttrsUrl}', function(${entityKeyAttrs}){
+    return (${capEntityName}Controller::getInstance()->delete(${entityKeyAttrs}));
 });

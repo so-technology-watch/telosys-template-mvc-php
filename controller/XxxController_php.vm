@@ -100,7 +100,7 @@ class ${capEntityName}Controller
      */
     public function update(${_}data) {
         ${_}${uncapEntityName} = ${_}this->populate(${_}data);
-        ${_}msg =  ${_}this->${uncapEntityName}Repository->update(${_}${uncapEntityName});
+        ${_}msg = ${_}this->${uncapEntityName}Repository->update(${_}${uncapEntityName});
         return ${_}this->getAll(${_}msg);
     }
 
@@ -109,7 +109,7 @@ class ${capEntityName}Controller
      * @return string
      */
     public function delete($entityKeyAttrs) {
-        ${_}msg =  ${_}this->${uncapEntityName}Repository->delete($entityKeyAttrs);
+        ${_}msg = ${_}this->${uncapEntityName}Repository->delete($entityKeyAttrs);
         return ${_}this->getAll(${_}msg);
     }
 }
