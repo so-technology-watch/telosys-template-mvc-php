@@ -51,7 +51,7 @@ class ${capEntityName}Controller
      * @return ${capEntityName}
      */
     public function populate(${_}data) {
-        return new new ${capEntityName}($entityFormatAttrs);
+        return new ${capEntityName}($entityFormatAttrs);
     }
 
     /**
