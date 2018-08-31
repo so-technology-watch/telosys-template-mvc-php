@@ -8,10 +8,11 @@
             "": [
                 "controller/",
 				"controller/common/",
-                "repository/",
-                "model/",
-                "route/",
-                "route/common/",
+                "dao/",
+                "entities/",
+                "routes/",
+                "routes/common/",
+                "rest/",
                 "view/"
             ]
         }

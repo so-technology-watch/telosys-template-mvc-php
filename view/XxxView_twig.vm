@@ -8,29 +8,33 @@
 #set( $keyAttribs = $keyAttribs +"/{{ " + ${uncapEntityName}+"."+${attribute.name} + " }}" )
 #end ## end if
 #end ## end foreach
-<div class="container">
-    <h2></h2>
+<!-- Page content -->
+<div class="jumbotron">
     <div class="container">
-        <form class="form-horizontal" method="post" id="${uncapEntityName}_form">
-            <div class="panel-group">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3>
-                            <span class="glyphicon glyphicon-leaf"></span>
-                            Update ${fn.capitalize($entity.name)}
-                            <a href="../${uncapEntityName}/form">
-                                <button type="button" formaction="../../${uncapEntityName}/form" class="btn btn-default pull-right">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
-                            </a>
-                            <a href="../${uncapEntityName}">
-                                <button type="button" formaction="../../${uncapEntityName}" class="btn btn-link pull-right">
-                                    List
-                                </button>
-                            </a>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
+        <div class="container">
+            <form class="form-horizontal" method="post" id="${uncapEntityName}_form">
+                <div class="panel-group">
+                    <div class="panel panel-info">
+
+                        <!-- ---------- HEAD : TITLE with BUTTONS [List] and [Create] -->
+                        <div class="panel-heading">
+                            <h4>
+                                <span class="glyphicon glyphicon-file"></span>
+                                <span class="font-weight-bold">&nbsp; Update ${fn.capitalize($entity.name)}</span>
+                                <div class="pull-right"> <!-- Buttons -->
+                                    <!-- [List] -->
+                                    <a href="../../${uncapEntityName}" title="Go to list">
+                                        <button type="button" class="btn btn-primary "> <span class="glyphicon glyphicon-list"></span> List</button></a>
+                                    &nbsp;
+                                    <!-- [Create] -->
+                                    <a href="../../${uncapEntityName}/form" title="Create a new author">
+                                        <button type="button" class="btn btn-success "><span class="glyphicon glyphicon-plus"></span> Create</button></a>
+                                </div>
+                            </h4>
+                        </div>
+
+                        <!-- ---------- FIELDS -->
+                        <div class="panel-body">
 #foreach( $attribute in $entity.keyAttributes )
     					<div class="form-group">
                             <label for="${attribute.name}" class="col-sm-2">${attribute.name} *</label>
@@ -49,18 +53,18 @@
                         </div>
 #end
                     </div>
-                    <div class="panel-footer">
-                        <a href="../../${uncapEntityName}/delete/${keyAttribs}">
-                            <button type="button" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Delete</button>
-                        </a>
-                        <a href="../../${uncapEntityName}/update">
-                            <button type="submit" formaction="../../${uncapEntityName}/update" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
-                        </a>
-                        <div class="clearfix"></div>
+                        <!-- ---------- BUTTONS [Save] and [Delete] -->
+                        <div class="panel-footer">
+							<a href="../../${uncapEntityName}/delete/${keyAttribs}">
+                            	<button type="button" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+							</a>                            
+							<button type="submit" formmethod="post" formaction="../../${uncapEntityName}/update"  class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+
+        </div>
     </div>
-</div>
 {% include './layout/footer.twig' %}
