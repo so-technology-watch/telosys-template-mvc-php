@@ -55,7 +55,7 @@ class Router {
     public function listen()
     {
         // import the defined routes in the route/ folder
-        foreach (glob("./route/*Routes.php") as $filename) {
+        foreach (glob("./routes/*Routes.php") as $filename) {
             include $filename;
         }
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
